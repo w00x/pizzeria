@@ -1,14 +1,14 @@
-sudo docker-compose run --rm pizza bundle exec rails new . --api -d postgresql
+sudo docker-compose run --rm pizzeria bundle exec rails new . --api -d postgresql
 
-sudo docker-compose run --rm pizza bundle exec rake db:create
+sudo docker-compose run --rm pizzeria bundle exec rake db:create
 
-sudo docker-compose run --rm pizza bundle exec rails g model Store name address:text email phone
-sudo docker-compose run --rm pizza bundle exec rails g model Product name sku type price:integer
-sudo docker-compose run --rm pizza bundle exec rails g model Pizza
-sudo docker-compose run --rm pizza bundle exec rails g model Complement
-sudo docker-compose run --rm pizza bundle exec rails g model Order store:references
-sudo docker-compose run --rm pizza bundle exec rails g migration CreateJoinTableStoreProduct store product
+sudo docker-compose run --rm pizzeria bundle exec rails g model Store name address:text email phone
+sudo docker-compose run --rm pizzeria bundle exec rails g model Product name sku type price:integer
+sudo docker-compose run --rm pizzeria bundle exec rails g model Pizza
+sudo docker-compose run --rm pizzeria bundle exec rails g model Complement
+sudo docker-compose run --rm pizzeria bundle exec rails g model Order store:references
+sudo docker-compose run --rm pizzeria bundle exec rails g migration CreateJoinTableStoreProduct store product
 
-sudo docker-compose run --rm pizza bundle exec rails g scaffold_controller api/v1/stores
-sudo docker-compose run --rm pizza bundle exec rails g scaffold_controller api/v1/products
-sudo docker-compose run --rm pizza bundle exec rails g scaffold_controller api/v1/orders
+sudo docker-compose run --rm pizzeria bundle exec rails g scaffold_controller api/v1/stores
+sudo docker-compose run --rm pizzeria bundle exec rails g scaffold_controller api/v1/products
+sudo docker-compose run --rm pizzeria bundle exec rails g scaffold_controller api/v1/orders
