@@ -1,0 +1,41 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 08041984
+    volumes:
+      - /data/pgsql:/var/lib/pgsql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  pizzeria:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/pizzeria
+      - ~/.ssh:/root/.ssh
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+    restart: always
+    environment:
+      RAILS_ENV: development
+    #env_file: .env
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - /data/redis:/var/lib/redis
+  mailcatcher:
+    image: yappabe/mailcatcher
+    restart: always
+    ports:
+        - 1025:1025
+        - 1080:1080
