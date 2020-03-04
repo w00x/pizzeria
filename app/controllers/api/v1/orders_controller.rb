@@ -20,7 +20,7 @@ class Api::V1::OrdersController < ApplicationController
   # POST /api/v1/orders.json
   def create
     begin
-      @api_v1_order = Order.new(api_v1_order_params)
+      @api_v1_order = Order.create!(api_v1_order_params)
       json_response @api_v1_order, :created
     rescue => ex
       json_response({error: ex.message}, :unprocessable_entity)
@@ -61,6 +61,6 @@ class Api::V1::OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def api_v1_order_params
-      params.fetch(:api_v1_order, {})
+      params.permit()
     end
 end
