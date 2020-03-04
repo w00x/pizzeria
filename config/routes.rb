@@ -3,11 +3,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :orders
       resources :products
-      post '/products/:id/add_stores', to: 'products#add_stores'
-      delete '/products/:id/delete_stores', to: 'products#delete_stores'
+      put '/products/:id/store/:store_id', to: 'products#add_stores'
+      delete '/products/:id/store/:store_id', to: 'products#delete_stores'
       resources :stores
-      post '/stores/:id/add_products', to: 'stores#add_products'
-      delete '/stores/:id/add_products', to: 'stores#add_products'
+      put '/stores/:id/product/:product_id', to: 'stores#add_product'
+      delete '/stores/:id/product/:product_id', to: 'stores#add_product'
     end
   end
 end

@@ -56,12 +56,8 @@ class Api::V1::ProductsController < ApplicationController
   def add_stores
     ActiveRecord::Base.transaction do
       begin
-        if params[:store_ids].present?
-          params[:store_ids].each do |store_id|
-            @api_v1_product.stores << Store.find(store_id)
-          end
-          @api_v1_product.reload
-        end
+        @api_v1_product.stores << Store.find(params[:store_id])
+        @api_v1_product.reload
 
         json_response @api_v1_product, :ok
       rescue => ex
@@ -74,12 +70,8 @@ class Api::V1::ProductsController < ApplicationController
   def delete_stores
     ActiveRecord::Base.transaction do
       begin
-        if params[:store_ids].present?
-          params[:store_ids].each do |store_id|
-            @api_v1_product.stores.delete(Store.find(store_id))
-          end
-          @api_v1_product.reload
-        end
+        @api_v1_product.stores.delete(Store.find(params[:store_id]))
+        @api_v1_product.reload
 
         json_response @api_v1_product, :ok
       rescue => ex

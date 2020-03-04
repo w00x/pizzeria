@@ -1,7 +1,7 @@
 include Response
 
 class Api::V1::StoresController < ApplicationController
-  before_action :set_api_v1_store, only: [:show, :update, :destroy, :add_products, :delete_products]
+  before_action :set_api_v1_store, only: [:show, :update, :destroy, :add_product, :delete_product]
 
   # GET /api/v1/stores
   # GET /api/v1/stores.json
@@ -50,39 +50,24 @@ class Api::V1::StoresController < ApplicationController
     end
   end
 
-  def add_products
-    ActiveRecord::Base.transaction do
-      begin
-        if params[:product_ids].present?
-          params[:product_ids].each do |product_id|
-            @api_v1_store.products << Product.find(product_id)
-          end
-          @api_v1_store.reload
-        end
+  def add_product
+    begin
+      @api_v1_store.products << Product.find(params[:product_id])
 
-        json_response @api_v1_store, :created
-      rescue => ex
-        json_response({error: ex.message}, :unprocessable_entity)
-        raise ActiveRecord::Rollback
-      end
+      head :no_content
+    rescue => ex
+      json_response({error: ex.message}, :unprocessable_entity)
     end
   end
 
-  def delete_products
-    ActiveRecord::Base.transaction do
-      begin
-        if params[:product_ids].present?
-          params[:product_ids].each do |product_id|
-            @api_v1_store.products.delete(Product.find(product_id))
-          end
-          @api_v1_store.reload
-        end
+  def delete_product
+    begin
+      @api_v1_store.products.delete(Product.find(params[:product_id]))
 
-        json_response @api_v1_store, :ok
-      rescue => ex
-        json_response({error: ex.message}, :unprocessable_entity)
-        raise ActiveRecord::Rollback
-      end
+      head :no_content
+    rescue => ex
+      json_response({error: ex.message}, :unprocessable_entity)
+      raise ActiveRecord::Rollback
     end
   end
 
