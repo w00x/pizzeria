@@ -1,0 +1,20 @@
+FROM phusion/passenger-ruby25
+
+RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+COPY site.conf /etc/nginx/sites-enabled/myapp.conf
+RUN rm -f /etc/service/nginx/down
+
+RUN mkdir /pizzeria
+
+WORKDIR /pizzeria
+
+RUN chmod a+x /pizzeria -R
+
+COPY Gemfile /pizzeria/Gemfile
+COPY Gemfile.lock /pizzeria/Gemfile.lock
+
+#RUN gem install bundler
+
+RUN bundle install
+
+EXPOSE 80

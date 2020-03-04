@@ -12,3 +12,8 @@ sudo docker-compose run --rm pizzeria bundle exec rails g migration CreateJoinTa
 sudo docker-compose run --rm pizzeria bundle exec rails g scaffold_controller api/v1/stores
 sudo docker-compose run --rm pizzeria bundle exec rails g scaffold_controller api/v1/products
 sudo docker-compose run --rm pizzeria bundle exec rails g scaffold_controller api/v1/orders
+
+sudo docker-compose run --rm pizzeria bundle exec rake assets:precompile db:create db:migrate RAILS_ENV=production
+
+sudo docker-compose -f docker-compose-prod.yml build
+sudo docker-compose -f docker-compose-prod.yml up
