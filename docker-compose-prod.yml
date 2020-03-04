@@ -7,13 +7,13 @@ services:
       - /data/pgsql:/var/lib/pgsql
     env_file: .env
   pizzeria:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
       - .:/pizzeria
       - ~/.ssh:/root/.ssh
-      - /tmp:/tmp
-      #- ./site.conf:/etc/nginx/sites-enabled/myapp.conf
     ports:
-      - "80:80"
+      - "3000:3000"
     depends_on:
       - db
     stdin_open: true
@@ -24,3 +24,12 @@ services:
     build:
       context: .
       dockerfile: DockerfileProduction
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - .:/pizzeria
+      - ./site.conf:/etc/nginx/conf.d/site.conf
+    depends_on:
+      - pizzeria

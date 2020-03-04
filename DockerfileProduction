@@ -1,20 +1,17 @@
-FROM phusion/passenger-ruby25
-
-RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
-COPY site.conf /etc/nginx/sites-enabled/myapp.conf
-RUN rm -f /etc/service/nginx/down
-
+FROM ruby:2.5.1
+RUN apt-get update -qq && apt-get install -y build-essential mlocate libpq-dev nodejs libxmlsec1-dev xvfb libfontconfig openssh-server vim
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+        && apt-get install -y nodejs
 RUN mkdir /pizzeria
 
 WORKDIR /pizzeria
 
-RUN chmod a+x /pizzeria -R
 
 COPY Gemfile /pizzeria/Gemfile
 COPY Gemfile.lock /pizzeria/Gemfile.lock
 
-#RUN gem install bundler
+RUN gem install bundler
 
 RUN bundle install
 
-EXPOSE 80
+EXPOSE 3000
