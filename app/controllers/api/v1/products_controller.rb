@@ -1,7 +1,7 @@
 include Response
 
 class Api::V1::ProductsController < ApplicationController
-  before_action :set_api_v1_product, only: [:show, :update, :destroy, :add_stores, :delete_stores]
+  before_action :set_api_v1_product, only: [:show, :update, :destroy, :add_store, :delete_store]
 
   # GET /api/v1/products
   # GET /api/v1/products.json
@@ -53,32 +53,25 @@ class Api::V1::ProductsController < ApplicationController
     end
   end
 
-  def add_stores
-    ActiveRecord::Base.transaction do
-      begin
+  def add_store
+    begin
         @api_v1_product.stores << Store.find(params[:store_id])
-        @api_v1_product.reload
-
-        json_response @api_v1_product, :ok
+        
+        head :no_content
       rescue => ex
+        byebug
         json_response({error: ex.message}, :unprocessable_entity)
-        raise ActiveRecord::Rollback
       end
-    end
   end
 
-  def delete_stores
-    ActiveRecord::Base.transaction do
-      begin
+  def delete_store
+    begin
         @api_v1_product.stores.delete(Store.find(params[:store_id]))
-        @api_v1_product.reload
-
-        json_response @api_v1_product, :ok
+        
+        head :no_content
       rescue => ex
         json_response({error: ex.message}, :unprocessable_entity)
-        raise ActiveRecord::Rollback
       end
-    end
   end
 
   private

@@ -24,7 +24,7 @@ RSpec.describe Api::V1::StoresController, type: :controller do
     context "when the request is valid" do
       before { post :create, params: valid_attributes }
 
-      it "create a todo" do
+      it "create a store" do
         expect(json['name']).to eq('Costanera center')
         expect(json['address']).to eq('direccion 333')
         expect(json['email']).to eq('blas@soto.com')
@@ -103,8 +103,7 @@ RSpec.describe Api::V1::StoresController, type: :controller do
     before { put :add_product, params: valid_attributes }
 
     context "when the request is valid" do
-      before { post :create, params: valid_attributes }
-
+      
       it "return code 204" do
         expect(response).to have_http_status(:no_content)
       end
@@ -113,6 +112,27 @@ RSpec.describe Api::V1::StoresController, type: :controller do
     context "when the request is not valid" do
       let(:invalid_attributes) { { id: 1000000, product_id: 1000000000 } }
       before { put :add_product, params: invalid_attributes }
+
+      it "returns status code 422" do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe "DELETE /stores/:id/product/:product_id" do
+    let(:valid_attributes) { { id: store_id, product_id: products.sample.id } }
+    before { delete :delete_product, params: valid_attributes }
+
+    context "when the request is valid" do
+      
+      it "return code 204" do
+        expect(response).to have_http_status(:no_content)
+      end
+    end
+
+    context "when the request is not valid" do
+      let(:invalid_attributes) { { id: 1000000, product_id: 1000000000 } }
+      before { delete :delete_product, params: invalid_attributes }
 
       it "returns status code 422" do
         expect(response).to have_http_status(:not_found)

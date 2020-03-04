@@ -4,6 +4,7 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
   let!(:products) { create_list(:product, 10) }
   let(:product_id) { products.first.id }
   let(:order_id) { products.first.order_id }
+  let(:stores) { create_list(:store, 5) }
 
   describe "GET /product" do
     before { get :index }
@@ -24,7 +25,7 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
     context "when the request is valid" do
       before { post :create, params: valid_attributes }
 
-      it "create a todo" do
+      it "create a product" do
         expect(json['name']).to eq('Napolitana')
         expect(json['sku']).to eq('234124')
         expect(json['price']).to eq(234)
@@ -94,6 +95,48 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
 
     it "return code 204" do
       expect(response).to have_http_status(:no_content)
+    end
+  end
+
+  describe "PUT /products/:id/store/:store_id" do
+    let(:valid_attributes) { { id: product_id, store_id: stores.sample.id } }
+    before { put :add_store, params: valid_attributes }
+
+    context "when the request is valid" do
+      
+      it "return code 204" do
+        expect(response).to have_http_status(:no_content)
+      end
+    end
+
+    context "when the request is not valid" do
+      let(:invalid_attributes) { { id: 1000000, store_id: 1000000000 } }
+      before { put :add_store, params: invalid_attributes }
+
+      it "returns status code 422" do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe "DELETE /products/:id/store/:store_id" do
+    let(:valid_attributes) { { id: product_id, store_id: stores.sample.id } }
+    before { delete :delete_store, params: valid_attributes }
+
+    context "when the request is valid" do
+      
+      it "return code 204" do
+        expect(response).to have_http_status(:no_content)
+      end
+    end
+
+    context "when the request is not valid" do
+      let(:invalid_attributes) { { id: 1000000, store_id: 1000000000 } }
+      before { delete :delete_store, params: invalid_attributes }
+
+      it "returns status code 422" do
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 end

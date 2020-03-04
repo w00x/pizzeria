@@ -1,0 +1,41 @@
+<h3>Nueva orden</h3>
+
+<h5>Detalle</h5>
+
+<b>Tienda: </b> <%= @order.store.name %>
+
+ <table style="width:100%">
+  <tr>
+    <th>Nombre</th>
+    <th>SKU</th>
+    <th>Tipo</th>
+    <th>Precio</th>
+  </tr>
+  <% @order.products.each do |product| %>
+	  <tr>
+	    <td><%= product.name %></td>
+	    <td><%= product.sku %></td>
+	    <td><%= product.type %></td>
+	    <td><%= number_to_currency(product.price, precision: 0) %></td>
+	  </tr>
+  <% end %>
+  <tr>
+    <td colspan="3" style="text-align: right;font-weight: bold;">TOTAL</td>
+    <td style="font-weight: bold;"><%= number_to_currency(@order.total, precision: 0) %></td>
+  </tr>
+</table> 
+
+<style type="text/css">
+	table {
+	  width:100%;
+	}
+	table, th, td {
+	  border: 1px solid black;
+	  border-collapse: collapse;
+	}
+	th, td {
+	  padding: 15px;
+	  text-align: left;
+	}
+</style>
+

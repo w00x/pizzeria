@@ -78,3 +78,4 @@ group :development do
 end
 
 gem 'rswag'
+gem 'rubocop', require: false

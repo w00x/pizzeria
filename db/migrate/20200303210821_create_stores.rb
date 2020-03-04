@@ -3,7 +3,7 @@ class CreateStores < ActiveRecord::Migration[5.2]
     create_table :stores do |t|
       t.string :name
       t.text :address
-      t.string :email
+      t.string :email, :default => "francisco.abalan@pjchile.com"
       t.string :phone
 
       t.timestamps
