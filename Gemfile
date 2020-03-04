@@ -76,6 +76,3 @@ group :development do
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-passenger', '~> 0.2.0', require: false
 end
-
-gem 'rswag'
-gem 'rubocop', require: false

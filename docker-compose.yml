@@ -3,10 +3,9 @@ services:
   db:
     image: postgres
     restart: always
-    environment:
-      POSTGRES_PASSWORD: 08041984
     volumes:
       - /data/pgsql:/var/lib/pgsql
+    env_file: .env
   adminer:
     image: adminer
     restart: always
@@ -27,7 +26,6 @@ services:
     restart: always
     environment:
       RAILS_ENV: development
-    #env_file: .env
   redis:
     image: redis:alpine
     restart: always
