@@ -1,49 +1,62 @@
+include Response
+
 class Api::V1::OrdersController < ApplicationController
   before_action :set_api_v1_order, only: [:show, :update, :destroy]
 
   # GET /api/v1/orders
   # GET /api/v1/orders.json
   def index
-    @api_v1_orders = Api::V1::Order.all
+    @api_v1_orders = Order.all
+    json_response(@api_v1_orders)
   end
 
   # GET /api/v1/orders/1
   # GET /api/v1/orders/1.json
   def show
+    json_response(@api_v1_order)
   end
 
   # POST /api/v1/orders
   # POST /api/v1/orders.json
   def create
-    @api_v1_order = Api::V1::Order.new(api_v1_order_params)
-
-    if @api_v1_order.save
-      render :show, status: :created, location: @api_v1_order
-    else
-      render json: @api_v1_order.errors, status: :unprocessable_entity
+    begin
+      @api_v1_order = Order.new(api_v1_order_params)
+      json_response @api_v1_order, :created
+    rescue => ex
+      json_response({error: ex.message}, :unprocessable_entity)
     end
   end
 
   # PATCH/PUT /api/v1/orders/1
   # PATCH/PUT /api/v1/orders/1.json
   def update
-    if @api_v1_order.update(api_v1_order_params)
-      render :show, status: :ok, location: @api_v1_order
-    else
-      render json: @api_v1_order.errors, status: :unprocessable_entity
+    begin
+      @api_v1_order.update!(api_v1_order_params)
+      head :no_content
+    rescue => ex
+      json_response({error: ex.message}, :unprocessable_entity)
     end
   end
 
   # DELETE /api/v1/orders/1
   # DELETE /api/v1/orders/1.json
   def destroy
-    @api_v1_order.destroy
+    begin
+      @api_v1_order.destroy!
+      head :no_content
+    rescue => ex
+      json_response({error: ex.message}, :unprocessable_entity)
+    end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_api_v1_order
-      @api_v1_order = Api::V1::Order.find(params[:id])
+      begin
+        @api_v1_order = Order.find(params[:id])
+      rescue => ex
+        json_response({error: ex.message}, :not_found)
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

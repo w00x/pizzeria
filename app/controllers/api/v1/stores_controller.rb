@@ -1,10 +1,12 @@
+include Response
+
 class Api::V1::StoresController < ApplicationController
   before_action :set_api_v1_store, only: [:show, :update, :destroy]
 
   # GET /api/v1/stores
   # GET /api/v1/stores.json
   def index
-    @api_v1_stores = Api::V1::Store.all
+    @api_v1_stores = Store.all
   end
 
   # GET /api/v1/stores/1
@@ -15,7 +17,7 @@ class Api::V1::StoresController < ApplicationController
   # POST /api/v1/stores
   # POST /api/v1/stores.json
   def create
-    @api_v1_store = Api::V1::Store.new(api_v1_store_params)
+    @api_v1_store = Store.new(api_v1_store_params)
 
     if @api_v1_store.save
       render :show, status: :created, location: @api_v1_store
@@ -43,7 +45,7 @@ class Api::V1::StoresController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_api_v1_store
-      @api_v1_store = Api::V1::Store.find(params[:id])
+      @api_v1_store = Store.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
