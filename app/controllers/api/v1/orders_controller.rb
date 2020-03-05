@@ -24,20 +24,13 @@ class Api::V1::OrdersController < ApplicationController
         @api_v1_order = Order.create!(api_v1_order_params)
 
         params[:products_id].each do |product_id|
-          prod = Product.find_by(id: product_id, order_id: @api_v1_order.order.id)
-
-          if prod.blank?
-            raise "Product added not exist in the store selected"
-          end
-
-          @api_v1_order.products << prod
+          @api_v1_order.products << Product.find(product_id)
         end
 
         Api::V1::OrderMailer.new_order(@api_v1_order).deliver_now
 
         json_response @api_v1_order.as_json(methods: [:total, :products]), :created
       rescue => ex
-        byebug
         json_response({error: ex.message}, :unprocessable_entity)
         raise ActiveRecord::Rollback
       end
