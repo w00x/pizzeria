@@ -8,6 +8,8 @@ sudo docker-compose run --rm pizzeria bundle exec rails g model Pizza
 sudo docker-compose run --rm pizzeria bundle exec rails g model Complement
 sudo docker-compose run --rm pizzeria bundle exec rails g model Order store:references
 sudo docker-compose run --rm pizzeria bundle exec rails g migration CreateJoinTableStoreProduct store product
+sudo docker-compose run --rm pizzeria bundle exec rails g migration CreateJoinTableProductOrder product order
+
 
 sudo docker-compose run --rm pizzeria bundle exec rails g scaffold_controller api/v1/stores
 sudo docker-compose run --rm pizzeria bundle exec rails g scaffold_controller api/v1/products

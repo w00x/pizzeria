@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Api::V1::ProductsController, type: :controller do
   let!(:products) { create_list(:product, 10) }
   let(:product_id) { products.first.id }
-  let(:order_id) { products.first.order_id }
   let(:stores) { create_list(:store, 5) }
 
   describe "GET /product" do
@@ -20,7 +19,7 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
   end
 
   describe "POST /product" do
-    let(:valid_attributes) { { name: 'Napolitana', sku: '234124', type: 'Pizza', price: 234, order_id: order_id } }
+    let(:valid_attributes) { { name: 'Napolitana', sku: '234124', type: 'Pizza', price: 234 } }
 
     context "when the request is valid" do
       before { post :create, params: valid_attributes }

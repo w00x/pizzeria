@@ -59,7 +59,6 @@ class Api::V1::ProductsController < ApplicationController
         
         head :no_content
       rescue => ex
-        byebug
         json_response({error: ex.message}, :unprocessable_entity)
       end
   end
@@ -86,6 +85,6 @@ class Api::V1::ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def api_v1_product_params
-      params.permit(:name, :sku, :type, :price, :order_id)
+      params.permit(:name, :sku, :type, :price)
     end
 end

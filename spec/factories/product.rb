@@ -4,7 +4,5 @@ FactoryBot.define do
     sku { Faker::IDNumber.valid }
     type { ["Pizza", "Complement"].sample }
     price { Faker::Commerce.price }
-
-    order
   end
 end

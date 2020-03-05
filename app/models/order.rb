@@ -1,6 +1,6 @@
 class Order < ApplicationRecord
   belongs_to :store
-  has_many :products
+  has_and_belongs_to_many :products
 
   def total
   	return self.products.map(&:price).sum
